@@ -1,7 +1,6 @@
-import { AuthOptions } from "next-auth"
 import DiscordProvider from "next-auth/providers/discord"
 
-export const authOptions: AuthOptions = {
+export const authOptions = {
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID!,
@@ -10,13 +9,13 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account }: any) {
       if (account) {
         token.accessToken = account.access_token
       }
       return token
     },
-    async session({ session, token }) {
+    async session({ session, token }: any) {
       session.accessToken = token.accessToken as string
       return session
     },
