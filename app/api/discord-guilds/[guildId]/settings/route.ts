@@ -7,14 +7,16 @@ const API_KEY = process.env.DASHBOARD_API_KEY!
 
 export async function GET(
   req: Request,
-  { params }: { params: { guildId: string } }
+  { params }: { params: Promise<{ guildId: string }> }
 ) {
   const session: any = await getServerSession(authOptions as any)
   if (!session?.accessToken) {
     return NextResponse.json({ error: "Belum login" }, { status: 401 })
   }
 
-  const res = await fetch(`${VPS_API_BASE}/api/guilds/${params.guildId}/settings`, {
+  const { guildId } = await params
+
+  const res = await fetch(`${VPS_API_BASE}/api/guilds/${guildId}/settings`, {
     headers: { "x-api-key": API_KEY },
   })
   const data = await res.json()
@@ -23,15 +25,17 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: { guildId: string } }
+  { params }: { params: Promise<{ guildId: string }> }
 ) {
   const session: any = await getServerSession(authOptions as any)
   if (!session?.accessToken) {
     return NextResponse.json({ error: "Belum login" }, { status: 401 })
   }
 
+  const { guildId } = await params
   const body = await req.json()
-  const res = await fetch(`${VPS_API_BASE}/api/guilds/${params.guildId}/settings`, {
+
+  const res = await fetch(`${VPS_API_BASE}/api/guilds/${guildId}/settings`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-api-key": API_KEY },
     body: JSON.stringify(body),
