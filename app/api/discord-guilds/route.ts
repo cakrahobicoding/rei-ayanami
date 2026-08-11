@@ -35,4 +35,5 @@ export async function GET() {
     await botGuildsRes.json()
 
   const result = botGuilds.filter((g) => manageableIds.has(g.id))
-  return NextR
+  return NextResponse.json(result)
+}
