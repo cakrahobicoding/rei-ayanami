@@ -7,14 +7,16 @@ const API_KEY = process.env.DASHBOARD_API_KEY!
 
 export async function GET(
   req: Request,
-  { params }: { params: { guildId: string } }
+  { params }: { params: Promise<{ guildId: string }> }
 ) {
   const session: any = await getServerSession(authOptions as any)
   if (!session?.accessToken) {
     return NextResponse.json({ error: "Belum login" }, { status: 401 })
   }
 
-  const res = await fetch(`${VPS_API_BASE}/api/guilds/${params.guildId}/channels`, {
+  const { guildId } = await params
+
+  const res = await fetch(`${VPS_API_BASE}/api/guilds/${guildId}/channels`, {
     headers: { "x-api-key": API_KEY },
   })
   const data = await res.json()
