@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import { NextResponse } from "next/server"
 
-const MANAGE_GUILD = 0x20n
+const MANAGE_GUILD = BigInt(0x20)
 const VPS_API_BASE = process.env.VPS_API_BASE!
 const API_KEY = process.env.DASHBOARD_API_KEY!
 
