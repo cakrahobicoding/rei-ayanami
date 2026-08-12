@@ -4,7 +4,7 @@ import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "Rei Ayanami — Dashboard",
-  description: "Dashboard untuk mengatur bot Discord",
+  description: "Dashboard untuk mengatur Bot",
 };
 
 export default function RootLayout({
